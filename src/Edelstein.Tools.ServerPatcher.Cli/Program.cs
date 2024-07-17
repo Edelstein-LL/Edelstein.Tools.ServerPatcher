@@ -17,6 +17,8 @@ Option<FileInfo> outputFileOption = new(["--output-file", "-o"], () => new FileI
 
 RootCommand rootCommand = [gameRegionOption, apiUriOption, assetsUriOption, headerFormatOption, customApkFileOption, outputFileOption];
 
+rootCommand.Description = "Server patching tool";
+
 rootCommand.SetHandler(HandleRootCommand, gameRegionOption, apiUriOption, assetsUriOption, headerFormatOption,
     customApkFileOption, outputFileOption);
 
