@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -6,6 +6,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>Edelstein.Tools.ServerPatcher</AssemblyName>
+        <Authors>Arasfon</Authors>
+        <Copyright>Copyright 2024 © Arasfon</Copyright>
+        <VersionPrefix>1.0.0</VersionPrefix>
     </PropertyGroup>
 
     <ItemGroup>
