@@ -9,7 +9,7 @@ public class AcoPatcher
 {
     private static readonly JsonSerializerOptions IndentedJsonSerializerOptions = new() { WriteIndented = true };
 
-    public static async Task Patch(Stream acoAssetStream, Uri apiUri, Uri assetsUri, GameRegion gameRegion)
+    public static async Task Patch(Stream acoAssetStream, string apiUriString, string assetsUriString, GameRegion gameRegion)
     {
         const int acoOffset = 4164;
         const int jpSerializedAcoLength = 578;
@@ -38,8 +38,8 @@ public class AcoPatcher
         AccessConfigObject aco = (await JsonSerializer.DeserializeAsync<AccessConfigObject>(decryptedAcoStream))!;
         decryptedAcoStream.Seek(0, SeekOrigin.Begin);
 
-        aco.InquiryServer = aco.ApiServer = apiUri + "/";
-        aco.AlbumCdnServer = aco.CdnServer = assetsUri + "/";
+        aco.InquiryServer = aco.ApiServer = apiUriString + "/";
+        aco.AlbumCdnServer = aco.CdnServer = assetsUriString + "/";
         aco.MaintenanceFile = aco.CdnServer + "maintenance/maintenance.json";
 
         string serializedAco = JsonSerializer.Serialize(aco, IndentedJsonSerializerOptions);

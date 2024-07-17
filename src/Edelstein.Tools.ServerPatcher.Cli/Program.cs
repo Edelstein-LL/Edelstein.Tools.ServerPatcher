@@ -25,6 +25,9 @@ return await rootCommand.InvokeAsync(args);
 static async Task<int> HandleRootCommand(GameRegion region, Uri apiUri, Uri assetsUri, GGLHeaderFormat headerFormat, FileInfo? customApk,
     FileInfo outputFile)
 {
+    string apiUriString = apiUri.ToString().TrimEnd('/');
+    string assetsUriString = assetsUri.ToString().TrimEnd('/');
+
     if (customApk is null)
     {
         AnsiConsole.WriteLine("Downloading base .apk...");
@@ -78,7 +81,7 @@ static async Task<int> HandleRootCommand(GameRegion region, Uri apiUri, Uri asse
         {
             gglUrlStream.SetLength(0);
 
-            await gglUrlStream.WriteAsync(Encoding.UTF8.GetBytes(apiUri.ToString()));
+            await gglUrlStream.WriteAsync(Encoding.UTF8.GetBytes(apiUriString));
         }
 
         Console.WriteLine("GGL URI was patched");
@@ -93,7 +96,7 @@ static async Task<int> HandleRootCommand(GameRegion region, Uri apiUri, Uri asse
 
         await using (Stream acoStream = accessConfigObjectEntry.Open())
         {
-            await AcoPatcher.Patch(acoStream, apiUri, assetsUri, region);
+            await AcoPatcher.Patch(acoStream, apiUriString, assetsUriString, region);
         }
 
         Console.WriteLine("API and assets URIs was patched successfully!");
