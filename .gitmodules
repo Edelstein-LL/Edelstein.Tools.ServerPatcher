@@ -1,0 +1,3 @@
+[submodule "src/Edelstein.Assets.Management"]
+	path = src/Edelstein.Assets.Management
+	url = ../../Edelstein-LL/Edelstein.Assets.Management

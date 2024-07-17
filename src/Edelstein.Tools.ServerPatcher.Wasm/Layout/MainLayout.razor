@@ -1,0 +1,27 @@
+@inherits LayoutComponentBase
+
+<FluentLayout>
+    <FluentHeader>
+        Edelstein.Tools.ServerPatcher
+    </FluentHeader>
+    <FluentStack Class="main">
+        <FluentBodyContent Class="body-content">
+            <ErrorBoundary>
+                <ChildContent>
+                    <div class="content">
+                        @Body
+                    </div>
+                </ChildContent>
+                <ErrorContent Context="ex">
+                    <div class="blazor-error-boundary">@ex.Message</div>
+                </ErrorContent>
+            </ErrorBoundary>
+        </FluentBodyContent>
+    </FluentStack>
+    <FluentFooter>
+        <a>&copy; 2024 Arasfon</a>
+    </FluentFooter>
+</FluentLayout>
+
+<FluentTooltipProvider/>
+<FluentDialogProvider/>

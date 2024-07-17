@@ -1,0 +1,106 @@
+@page "/"
+@using Edelstein.Tools.ServerPatcher.Wasm.Core
+
+<PageTitle>LLSIF2 Server Patcher</PageTitle>
+
+<FluentStack Orientation="Orientation.Vertical">
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel Typo="Typography.PageTitle">LLSIF2 Server Patcher</FluentLabel>
+        <FluentLabel>This patcher is for the Android version of the game.</FluentLabel>
+        <FluentLabel>For iOS, there is a patched version with easily editable settings available for download <FluentAnchor Href="https://arasfon.ru/direct/lovelive/sif2/patched-clients/ios/" Appearance="Appearance.Hypertext">here</FluentAnchor>.</FluentLabel>
+    </FluentStack>
+
+    <FluentCard AreaRestricted="false">
+        <FluentEditForm EditContext="_editContext" OnValidSubmit="OnValidFormSubmit" novalidate>
+            <DataAnnotationsValidator/>
+
+            <FluentStack Orientation="Orientation.Vertical">
+                <FluentSwitch Label="Use custom .apk (not recommended)" @bind-Value="UseCustomApk"/>
+                @if (UseCustomApk)
+                {
+                    <!-- Nesting FluentCards causes recursion error in console -->
+                    <FluentCard AreaRestricted="false">
+                        <FluentStack Orientation="Orientation.Vertical">
+                            <FluentLabel>Loaded file: <code>@(_customApkOriginalFileName ?? "None")</code></FluentLabel>
+                            <FluentInputFile Id="file-uploader"
+                                             Mode="InputFileMode.SaveToTemporaryFolder"
+                                             Accept=".apk"
+                                             Style="border: 1px dashed var(--accent-fill-rest); padding: 1rem;"
+                                             MaximumFileSize="1 * 1024 * 1024 * 1024"
+                                             BufferSize="1 * 1024 * 1024"
+                                             OnCompleted="OnCustomApkUploadComplete"
+                                             OnProgressChange="OnCustomApkUploadProgress">
+                                <ChildContent>
+                                    <label for="file-uploader">
+                                        <FluentIcon Value="@(new Icons.Regular.Size24.ArrowUpload())"/>
+                                    </label>
+                                    <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center">
+                                        <FluentLabel>You can drag and drop your .apk here, or <label for="file-uploader">browse</label> to upload it.</FluentLabel>
+                                    </FluentStack>
+                                </ChildContent>
+                            </FluentInputFile>
+                        </FluentStack>
+                    </FluentCard>
+                }
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+                    <FluentTextField Label="API URL" Placeholder="http://localhost:35373" @bind-Value="PatchSettings.ApiUri" Spellcheck="false" Size="50"/>
+                    <FluentValidationMessage For="@(() => PatchSettings.ApiUri)"/>
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+                    <FluentTextField Label="Assets URL" Placeholder="http://localhost:35373" @bind-Value="PatchSettings.AssetsUri" Spellcheck="false" Size="50"/>
+                    <FluentValidationMessage For="@(() => PatchSettings.AssetsUri)"/>
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+                    <FluentRadioGroup @bind-Value="PatchSettings.Region" Label="Game version">
+                        <FluentRadio Value="GameRegion.Jp" Checked="true">Jp</FluentRadio>
+                        <FluentRadio Value="GameRegion.Global">Global</FluentRadio>
+                    </FluentRadioGroup>
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="0">
+                    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                        <FluentInputLabel ForId="header-format-select" Label="Header format"/>
+                        <FluentIcon Id="header-format-info-icon" Icon="Icons.Regular.Size16.Info" Style="margin: 0 0 4px 0;"/>
+                        <FluentTooltip Anchor="header-format-info-icon">
+                            <FluentLabel><FluentAnchor Href="https://github.com/ethanaobrien/ew" Appearance="Appearance.Hypertext">ew</FluentAnchor> uses <code>Lowercase</code>, <FluentAnchor Href="https://github.com/Arasfon/Edelstein" Appearance="Appearance.Hypertext">Edelstein</FluentAnchor> uses <code>Original</code>.</FluentLabel>
+                        </FluentTooltip>
+                    </FluentStack>
+                    <FluentSelect Id="header-format-select" TOption="GGLHeaderFormat" @onchange="OnHeaderFormatSelectChange">
+                        <FluentOption Value="@(GGLHeaderFormat.Original.ToString())" Selected="@(GGLHeaderFormat.Original == PatchSettings.HeaderFormat)">
+                            Original (X-GREE-Authorization)
+                        </FluentOption>
+                        <FluentOption Value="@(GGLHeaderFormat.Canonical.ToString())" Selected="@(GGLHeaderFormat.Canonical == PatchSettings.HeaderFormat)">
+                            Canonical (X-Gree-Authorization)
+                        </FluentOption>
+                        <FluentOption Value="@(GGLHeaderFormat.Lowercase.ToString())" Selected="@(GGLHeaderFormat.Lowercase == PatchSettings.HeaderFormat)">
+                            Lowercase (x-gree-authorization)
+                        </FluentOption>
+                    </FluentSelect>
+                </FluentStack>
+                @if (PatchedApkDownloadUri is null)
+                {
+                    <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent" @bind-Disabled="IsPatchDisabled">Patch</FluentButton>
+                }
+                else
+                {
+                    <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent" Disabled="true">Reload the page to patch again</FluentButton>
+                }
+
+                @if (PatchedApkDownloadUri is not null)
+                {
+                    <FluentDivider Style="width: 100%"/>
+                    <FluentLabel><strong>Note:</strong> The patched .apk is <strong>not</strong> signed. You need to sign it using <FluentAnchor Href="https://github.com/patrickfav/uber-apk-signer" Appearance="Appearance.Hypertext">uber-apk-signer</FluentAnchor> or manually using <FluentAnchor Href="https://developer.android.com/tools/apksigner" Appearance="Appearance.Hypertext">apksigner</FluentAnchor>.</FluentLabel>
+                    <FluentAnchor Href="@PatchedApkDownloadUri" Target="_self" Download="sif2_patched.apk">Download patched .apk file</FluentAnchor>
+                }
+            </FluentStack>
+        </FluentEditForm>
+    </FluentCard>
+</FluentStack>
+
+@code
+{
+    private void OnHeaderFormatSelectChange(ChangeEventArgs args)
+    {
+        PatchSettings.HeaderFormat = Enum.Parse<GGLHeaderFormat>((string)args.Value!);
+        StateHasChanged();
+    }
+}

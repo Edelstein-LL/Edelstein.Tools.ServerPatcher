@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Edelstein.Tools.ServerPatcher.Wasm", "src\Edelstein.Tools.ServerPatcher.Wasm\Edelstein.Tools.ServerPatcher.Wasm.csproj", "{567AC970-C400-4865-AF70-96A9C1768AE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edelstein.Tools.ServerPatcher.Cli", "src\Edelstein.Tools.ServerPatcher.Cli\Edelstein.Tools.ServerPatcher.Cli.csproj", "{2E01E877-ECBA-4686-B65B-F7129E95DC04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edelstein.Assets.Management", "src\Edelstein.Assets.Management\Edelstein.Assets.Management.csproj", "{955F3087-E52A-4A30-B693-CD2328851F1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{567AC970-C400-4865-AF70-96A9C1768AE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567AC970-C400-4865-AF70-96A9C1768AE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567AC970-C400-4865-AF70-96A9C1768AE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567AC970-C400-4865-AF70-96A9C1768AE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E01E877-ECBA-4686-B65B-F7129E95DC04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E01E877-ECBA-4686-B65B-F7129E95DC04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E01E877-ECBA-4686-B65B-F7129E95DC04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E01E877-ECBA-4686-B65B-F7129E95DC04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955F3087-E52A-4A30-B693-CD2328851F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955F3087-E52A-4A30-B693-CD2328851F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955F3087-E52A-4A30-B693-CD2328851F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955F3087-E52A-4A30-B693-CD2328851F1A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E7A41709-B124-4702-89E3-2B841D2CA9D1}
+	EndGlobalSection
+EndGlobal

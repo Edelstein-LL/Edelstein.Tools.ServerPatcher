@@ -1,0 +1,41 @@
+@implements IDialogContentComponent<PatcherDialog.DialogReferenceContent<string>>
+
+<FluentDialogBody>
+    <FluentStack Orientation="Orientation.Vertical">
+        <FluentLabel>@Content.Content</FluentLabel>
+        <FluentProgress Width="100%"/>
+    </FluentStack>
+</FluentDialogBody>
+
+<FluentDialogFooter>
+    <FluentLabel/>
+</FluentDialogFooter>
+
+@code
+{
+    [Parameter]
+    public DialogReferenceContent<string> Content { get; set; } = default!;
+
+    [CascadingParameter]
+    public FluentDialog Dialog { get; set; } = default!;
+
+    public static PatcherDialog? Instance { get; private set; }
+
+    public PatcherDialog() =>
+        Instance = this;
+
+    public class DialogReferenceContent<T>
+    {
+        private T? _content;
+
+        public T? Content
+        {
+            get => _content;
+            set
+            {
+                _content = value;
+                Instance!.StateHasChanged();
+            }
+        }
+    }
+}
