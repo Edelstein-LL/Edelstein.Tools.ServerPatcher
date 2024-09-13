@@ -25,9 +25,6 @@ public partial class Patcher
     private Stream? _apkStream;
 
     [Inject]
-    private HttpClient HttpClient { get; set; } = null!;
-
-    [Inject]
     private IJSRuntime JsRuntime { get; set; } = null!;
 
     [Inject]

@@ -10,6 +10,4 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddFluentUIComponents();
 
-builder.Services.AddHttpClient();
-
 await builder.Build().RunAsync();
