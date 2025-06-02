@@ -199,7 +199,7 @@ public partial class Patcher
             Console.WriteLine("API and assets URIs was patched");
         }
 
-        ((PatcherDialog.DialogReferenceContent<string>)dialog.Instance.Content).Content = "Finilizing file and preparing to download...";
+        ((PatcherDialog.DialogReferenceContent<string>)dialog.Instance.Content).Content = "Finalizing the file and preparing to download (can take some time)...";
 
         _apkStream.Seek(0, SeekOrigin.Begin);
 
