@@ -10,7 +10,7 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <Authors>Arasfon</Authors>
         <Copyright>Copyright 2024 © Arasfon</Copyright>
-        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionPrefix>1.1.0</VersionPrefix>
     </PropertyGroup>
 
     <ItemGroup>
