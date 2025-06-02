@@ -214,6 +214,7 @@ public partial class Patcher
         ((PatcherDialog.DialogReferenceContent<string>)dialog.Instance.Content).Content = "Waiting for download to begin...";
 
         _apkFile.Delete();
+        await _apkStream.DisposeAsync();
 
         await dialog.CloseAsync();
     }
